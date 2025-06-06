@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./src/shared/config"
+    //
+  },
+  "include": [
+    "src/**/*",
+    "app.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
