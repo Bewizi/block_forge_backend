@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import Products from "../models/products_models";
+import { where } from "sequelize";
 
 export const getProductById = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): Promise<void> => {
   try {
     const id = req.params.id;
@@ -20,10 +21,25 @@ export const getProductById = async (
   }
 };
 
-export const createProducts =async (req:Request,res:Response,next:NextFunction)=>{
-  try{
-    
-  }catch (e) {
-    
+export const createProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
+  try {
+    const { name, image } = req.body;
+    const existingData = await Products.findOne({
+      where: { name: name, image: image },
+    });
+    if (!existingData) {
+      return res
+        .status(400)
+        .json({ message: `Product already exist ${name} and ${image}` });
+    }
+    res.status(201).json({ message: "Product created successfully" });
+    return next();
+  } catch (e) {
+    console.log(e as Error);
+    res.status(500).json({ message: "Product not found" });
   }
-}
+};
