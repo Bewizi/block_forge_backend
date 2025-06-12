@@ -8,6 +8,8 @@ class Products extends Model {
   declare price: string;
   declare description: string;
   declare category: string;
+  declare size: string;
+  declare use: string;
 }
 
 Products.init(
@@ -35,17 +37,26 @@ Products.init(
       allowNull: false,
     },
     category: {
-      type: DataTypes.ENUM('solid','hollow'),
+      type: DataTypes.ENUM("solid", "hollow"),
       allowNull: false,
     },
-  
+
+    size: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    use: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     sequelize: database,
     modelName: "products",
     timestamps: true,
     paranoid: true,
-  },
+  }
 );
 
 export default Products;

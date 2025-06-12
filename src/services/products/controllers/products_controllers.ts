@@ -20,6 +20,7 @@ class Products_controllers {
       res
         .status(200)
         .json({ message: "All Products", products: productsWithFullImageUrl });
+      next();
     } catch (e) {
       console.log(e as Error);
       res.status(400).json({
@@ -29,11 +30,35 @@ class Products_controllers {
     }
   };
 
-  getProduct = async (req: Request, res: Response, next: NextFunction) => {
+  getProduct = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
     try {
       const id = req.params.id;
       const productId = await Products.findOne({ where: { id: id } });
-      res.status(200).json({ message: `Products ${id} fetched`, productId });
+
+      const CLOUDINARY_BASE_URL =
+        "https://res.cloudinary.com/djupk6o9s/image/upload/";
+
+      // const Url =`${req.protocol}://${req.get("host")}/public/`;
+
+      if (!productId) {
+        return res
+          .status(404)
+          .json({ message: `Product with ID ${id} not found` });
+      }
+
+      const productsWithFullImageUrl = {
+        ...productId.toJSON(),
+        image: `${CLOUDINARY_BASE_URL}${productId.image}`,
+      };
+      res.status(200).json({
+        message: `Products ${id} fetched`,
+        productId: productsWithFullImageUrl,
+      });
+      next();
     } catch (e) {
       console.log(e as Error);
       res.status(400).json({
@@ -43,23 +68,40 @@ class Products_controllers {
     }
   };
 
-  createProduct = async (req: Request, res: Response, next: NextFunction) => {
+  createProduct = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
     try {
-      const { name, image, price, description, category } = req.body;
+      const { name, image, price, description, category, use, size } = req.body;
 
-      const imageWithCategoryPrefix = `${category}/${image}`;
+      // const imageWithCategoryPrefix = `${category}/${image}`;
+
+      // const existingBlock = await Products.findOne({
+      //   where: { name: name, image: image },
+      // });
+
+      // if (existingBlock) {
+      //   return res
+      //     .status(400)
+      //     .json({ message: `Product already exist ${name} and ${image}` });
+      // }
 
       const product = await Products.create({
         name,
-        image: imageWithCategoryPrefix,
+        image,
         price,
         description,
         category,
+        use,
+        size,
       });
 
       res
         .status(201)
         .json({ message: `Product created successfully`, product });
+      next();
     } catch (e) {
       console.log(e as Error);
       res.status(400).json({
