@@ -37,6 +37,7 @@ class Products_controllers {
   ): Promise<any> => {
     try {
       const id = req.params.id;
+
       const productId = await Products.findOne({ where: { id: id } });
 
       const CLOUDINARY_BASE_URL =
