@@ -8,8 +8,15 @@ export const getProductById = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const id = req.params.id;
-    const product = await Products.findOne({ where: { id } });
+    const { id } = req.params;
+
+    if (!id) {
+      res.status(400).json({ message: "Product ID required" });
+      return;
+    }
+
+    const product = await Products.findByPk(id);
+
     if (!product) res.status(404).json({ message: "Product not found" });
     next();
   } catch (e) {
