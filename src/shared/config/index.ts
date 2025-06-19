@@ -16,6 +16,7 @@ const config: ServerConfig = {
   },
 
   database: {
+    host: getEnv("DATABASE_HOST"),
     name: getEnv("DATABASE_NAME"),
     port: Number(getEnv("DATABASE_PORT")),
     username: getEnv("DATABASE_USERNAME"),
