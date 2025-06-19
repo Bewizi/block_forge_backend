@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: build-forge-backend
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_NAME
+        value: buildforge
+      - key: DATABASE_PORT
+        value: 5432
+      - key: DATABASE_USERNAME
+        value: postgres
+      - key: DATABASE_PASSWORD
+        value: root
+      - key: ORIGIN_URL
+        value: http://localhost:5173
+      - key: CLOUDINARY_CLOUD_NAME
+        value: djupk6o9s
+      - key: CLOUDINARY_API_KEY
+        value: 245514316486827
+      - key: CLOUDINARY_API_SECRET
+        value: S43f7d-XJmKBPZWAIVxJGzRfA8c
+      - key: APP_PORT
+        value: 5000
