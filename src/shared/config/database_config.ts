@@ -2,14 +2,13 @@ import { Sequelize } from "sequelize";
 import config from "./index";
 
 const database = new Sequelize(
-  config.database.name!,
-  config.database.username!,
-  config.database.password!,
+  config.database.name,
+  config.database.username,
+  config.database.password,
   {
-    host: config.database.host,
     dialect: "postgres",
-    port: config.database.port || 5432,
-    logging: console.log,
+    port: config.database.port,
+    logging: false,
     pool: {
       max: 5,
       min: 0,
